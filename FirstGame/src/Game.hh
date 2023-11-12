@@ -1,8 +1,11 @@
 #ifndef SRC_GAME_H
 #define SRC_GAME_H
 
-#include <SFML/Graphics.hpp>
+#include <ctime>
+#include <sstream>
 #include <vector>
+
+#include <SFML/Graphics.hpp>
 
 class Game {
  private:
@@ -14,6 +17,12 @@ class Game {
   // Mouse positions
   sf::Vector2i mousePosWindow;
   sf::Vector2f mousePosView;
+
+  // Resources
+  sf::Font font;
+
+  // Text
+  sf::Text uiText;
 
   // Game logic
   bool endGame;
@@ -31,6 +40,8 @@ class Game {
   // Private functions
   void initVariables();
   void initWindow();
+  void initFonts();
+  void initText();
   void initEnemies();
 
  public:
@@ -46,9 +57,11 @@ class Game {
 
   void updateMousePositions();
   void pollEvents();
+  void updateText();
   void updateEnemies();
   void update();
 
+  void renderText();
   void renderEnemies();
   void render();
 };

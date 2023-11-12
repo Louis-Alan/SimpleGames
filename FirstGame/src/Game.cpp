@@ -1,8 +1,5 @@
 #include "Game.hh"
 
-#include <ctime>
-#include <vector>
-
 #include "celeste_lib.h"
 
 // Private Functions
@@ -26,6 +23,19 @@ void Game::initWindow() {
   this->window->setFramerateLimit(60);
 }
 
+void Game::initFonts() {
+  if (this->font.loadFromFile("fonts/Raleway.ttf")) {
+    SM_ERROR("Failed in loading Font")
+  }
+}
+
+void Game::initText() {
+  this->uiText.setFont(this->font);
+  this->uiText.setCharacterSize(16);
+  this->uiText.setFillColor(sf::Color::White);
+  this->uiText.setString("NONE");
+}
+
 void Game::initEnemies() {
   this->enemy.setPosition(10.f, 10.f);
   this->enemy.setSize(sf::Vector2f(100.f, 100.f));
@@ -39,6 +49,8 @@ void Game::initEnemies() {
 Game::Game() {
   this->initVariables();
   this->initWindow();
+  this->initFonts();
+  this->initText();
   this->initEnemies();
 }
 
@@ -96,6 +108,12 @@ void Game::pollEvents() {
 void Game::updateMousePositions() {
   this->mousePosWindow = sf::Mouse::getPosition(*this->window);
   this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
+}
+
+void Game::updateText() {
+  std::stringstream ss;
+  ss << "Points: " << this->points << '\n' << "Health: " << this->health;
+  this->uiText.setString(ss.str());
 }
 
 void Game::updateEnemies() {
@@ -158,6 +176,8 @@ void Game::update() {
     // Update Mouse Position
     this->updateMousePositions();
 
+    this->updateText();
+
     this->updateEnemies();
   }
 
@@ -165,6 +185,10 @@ void Game::update() {
   if (this->health <= 0) {
     this->endGame = true;
   }
+}
+
+void Game::renderText() {
+  this->window->draw(this->uiText);
 }
 
 void Game::renderEnemies() {
@@ -185,6 +209,7 @@ void Game::render() {
 
   // Draw game objects
   this->renderEnemies();
+  this->renderText();
 
   this->window->display();
 }
