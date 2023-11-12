@@ -1,5 +1,6 @@
 // "No Copyright 2023 Alan"
 
+#include "celeste_lib.h"
 #ifdef __APPLE__
 #endif
 
@@ -13,7 +14,7 @@ int main() {
   Game game;
 
   // Game loop
-  while (game.isWindowOpen()) {
+  while (game.running() && !game.isGameOver()) {
     // Update
     game.update();
 
