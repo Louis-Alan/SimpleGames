@@ -1,9 +1,5 @@
 // "No Copyright 2023 Alan"
 
-#include "celeste_lib.h"
-#ifdef __APPLE__
-#endif
-
 #include "Game.hh"
 
 int main() {

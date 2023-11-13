@@ -1,6 +1,6 @@
 #include "Game.hh"
 
-#include "celeste_lib.h"
+#include "logger.h"
 
 // Private Functions
 void Game::initVariables() {
@@ -41,8 +41,6 @@ void Game::initEnemies() {
   this->enemy.setSize(sf::Vector2f(100.f, 100.f));
   this->enemy.scale(sf::Vector2f(0.5f, 0.5f));
   this->enemy.setFillColor(sf::Color::Cyan);
-  this->enemy.setOutlineColor(sf::Color::Green);
-  this->enemy.setOutlineThickness(1.f);
 }
 
 // Constructor / Destructor
@@ -84,7 +82,35 @@ void Game::spawnEnemy() {
                                                    this->enemy.getSize().x)),
       0.f);
 
-  this->enemy.setFillColor(sf::Color::Green);
+  // Randomize enemy type
+  int type = rand() % 5;
+
+  switch (type) {
+    case 0:
+      this->enemy.setFillColor(sf::Color::Magenta);
+      this->enemy.setSize(sf::Vector2f(20.f, 20.f));
+      break;
+    case 1:
+      this->enemy.setSize(sf::Vector2f(30.f, 30.f));
+      this->enemy.setFillColor(sf::Color::Blue);
+      break;
+    case 3:
+      this->enemy.setSize(sf::Vector2f(50.f, 50.f));
+      this->enemy.setFillColor(sf::Color::Cyan);
+      break;
+    case 4:
+      this->enemy.setSize(sf::Vector2f(70.f, 70.f));
+      this->enemy.setFillColor(sf::Color::Red);
+      break;
+    case 5:
+      this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+      this->enemy.setFillColor(sf::Color::Green);
+      break;
+    default:
+      this->enemy.setSize(sf::Vector2f(100.f, 100.f));
+      this->enemy.setFillColor(sf::Color::Yellow);
+      break;
+  }
 
   // Spawn enemy
   this->enemies.push_back(this->enemy);
@@ -154,13 +180,21 @@ void Game::updateEnemies() {
       bool deleted = false;
       for (size_t i = 0; i < this->enemies.size() && deleted == false; i++) {
         if (this->enemies[i].getGlobalBounds().contains(this->mousePosView)) {
+          // Adding points
+          if (this->enemies[i].getFillColor() == sf::Color::Magenta)
+            this->points += 10;
+          else if (this->enemies[i].getFillColor() == sf::Color::Blue)
+            this->points += 7;
+          else if (this->enemies[i].getFillColor() == sf::Color::Cyan)
+            this->points += 5;
+          else if (this->enemies[i].getFillColor() == sf::Color::Red)
+            this->points += 3;
+          else if (this->enemies[i].getFillColor() == sf::Color::Green)
+            this->points += 1;
+
           // Delete the enemy
           deleted = true;
           this->enemies.erase(this->enemies.begin() + i);
-
-          // Adding points
-          this->points += 1;
-          SM_TRACE("Points: %d", this->points);
         }
       }
     }
