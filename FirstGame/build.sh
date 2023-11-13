@@ -1,9 +1,9 @@
 #!/bin/bash
 
 warnings="-Wno-writable-strings -Wno-format-security -Wno-deprecated-declarations -Wno-switch"
-includes="-I ./includes/"
+includes="-I ../includes/"
 # Find a fix 
-libs="-L ./library/ ./src/Game.cpp"
+libs="-L ../library/ ./src/Game.cpp"
 smfl="-lsfml-graphics -lsfml-window -lsfml-system"
 
 if [[ "$(uname)" == "Darwin" ]]; then
