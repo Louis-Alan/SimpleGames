@@ -1,2 +1,4 @@
 includes/
 library/
+*.DSYM
+*.DS_STORE
