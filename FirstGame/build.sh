@@ -11,7 +11,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
     outputFile=game
 
     rm -f game_*
-    clang++ $includes $libs -g "src/main.cpp" -o $outputFile $warnings $smfl
+    clang++ $includes $libs -g "FirstGame/src/main.cpp" -o $outputFile $warnings $smfl -std=c++17
 
 
 else
