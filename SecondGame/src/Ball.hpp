@@ -4,7 +4,7 @@
 
 class Ball {
  public:
-  Ball();
+  Ball(const sf::RenderWindow& window);
   ~Ball();
 
   // Functions
@@ -14,5 +14,5 @@ class Ball {
  private:
   sf::CircleShape shape;
 
-  void initShape();
+  void initShape(const sf::RenderWindow& window);
 };

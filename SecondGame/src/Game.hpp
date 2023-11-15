@@ -2,7 +2,9 @@
 #pragma once
 
 #include <ctime>
+#include <vector>
 
+#include "Ball.hpp"
 #include "Player.hpp"
 
 class Game {
@@ -25,10 +27,16 @@ class Game {
 
   Player player;
 
+  std::vector<Ball> balls;
+  float spawnTimerMax;
+  float spawnTimer;
+  int maxBalls;
+
   // Init Functions
   void initVariables();
   void initWindow();
 
   // Functions
   void pollEvents();
+  void spawnBalls();
 };

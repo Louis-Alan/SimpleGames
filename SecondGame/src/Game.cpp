@@ -5,6 +5,9 @@
 // Init functions
 void Game::initVariables() {
   this->endGame = false;
+  this->spawnTimerMax = 10.f;
+  this->spawnTimer = this->spawnTimerMax;
+  this->maxBalls = 5;
 }
 
 void Game::initWindow() {
@@ -43,9 +46,23 @@ void Game::pollEvents() {
   }
 }
 
+void Game::spawnBalls() {
+  // Timer
+  if (this->spawnTimer < this->spawnTimerMax) {
+    this->spawnTimer += 1.f;
+  } else {
+    if (this->balls.size() < this->maxBalls) {
+      this->balls.push_back(Ball(*this->window));
+      this->spawnTimer = 0.f;
+    }
+  }
+}
+
 // public functions
 void Game::update() {
   this->pollEvents();
+
+  this->spawnBalls();
 
   this->player.update(this->window);
 }
@@ -55,6 +72,10 @@ void Game::render() {
 
   // Render Stuff
   this->player.render(this->window);
+
+  for (auto i : this->balls) {
+    i.render(this->window);
+  }
 
   // Display
   this->window->display();

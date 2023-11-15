@@ -3,7 +3,7 @@
 warnings="-Wno-writable-strings -Wno-format-security -Wno-deprecated-declarations -Wno-switch"
 includes="-I ../includes/"
 # Find a fix 
-libs="-L ../library/ ./src/Game.cpp ./src/Player.cpp"
+libs="-L ../library/ ./src/Game.cpp ./src/Player.cpp ./src/Ball.cpp"
 smfl="-lsfml-graphics -lsfml-window -lsfml-system"
 
 if [[ "$(uname)" == "Darwin" ]]; then
