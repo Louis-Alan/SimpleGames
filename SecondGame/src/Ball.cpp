@@ -4,15 +4,15 @@ void Ball::initShape(const sf::RenderWindow &window) {
     this->shape.setRadius(static_cast<float>((rand() % 10) + 10));
     sf::Color color;
     switch (this->type) {
-    case DEFAULT:
+    case BallType::DEFAULT:
         color = sf::Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1);
         break;
-    case HEALING:
+    case BallType::HEALING:
         color = sf::Color::Green;
         this->shape.setOutlineThickness(2.f);
         this->shape.setOutlineColor(sf::Color::White);
         break;
-    case DAMAGING:
+    case BallType::DAMAGING:
         color = sf::Color::Red;
         this->shape.setOutlineThickness(2.f);
         this->shape.setOutlineColor(sf::Color::Yellow);
@@ -21,14 +21,11 @@ void Ball::initShape(const sf::RenderWindow &window) {
 
     this->shape.setFillColor(color);
     this->shape.setPosition(
-        static_cast<float>(
-            rand() %
-            static_cast<int>((window.getSize().x - this->shape.getRadius()))),
-        static_cast<float>(
-            rand() %
-            static_cast<int>((window.getSize().y - this->shape.getRadius()))));
+        static_cast<float>(rand() % window.getSize().x -
+                           this->shape.getGlobalBounds().width),
+        static_cast<float>(rand() % window.getSize().y -
+                           this->shape.getGlobalBounds().height));
 
-    /*  For out of bounds fix
     sf::FloatRect bounds = this->shape.getGlobalBounds();
     if (bounds.left < 0.f) {
         this->shape.setPosition(0.f, bounds.top);
@@ -41,7 +38,6 @@ void Ball::initShape(const sf::RenderWindow &window) {
         this->shape.setPosition(bounds.left,
                                 window.getSize().y - bounds.height);
     }
-    */
 }
 
 Ball::Ball(const sf::RenderWindow &window, int type) : type(type) {

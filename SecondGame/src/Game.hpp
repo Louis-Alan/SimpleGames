@@ -14,6 +14,7 @@ class Game {
 
     // Accessors
     const bool running() const;
+    const bool &getEndGame() const;
 
     // Public Functions
     void update();
@@ -27,6 +28,7 @@ class Game {
 
     sf::Font font;
     sf::Text guiText;
+    sf::Text endGameText;
 
     Player player;
     int points;
@@ -45,9 +47,12 @@ class Game {
     // Functions
     void pollEvents();
     void spawnBalls();
+    const int randBallType() const;
 
+    void updatePlayer();
     void updateCollision();
     void updateText();
 
     void renderGui();
+    void renderEndGame();
 };
