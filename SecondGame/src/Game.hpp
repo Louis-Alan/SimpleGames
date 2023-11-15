@@ -9,34 +9,45 @@
 
 class Game {
  public:
-  Game();
-  ~Game();
+    Game();
+    ~Game();
 
-  // Accessors
-  const bool running() const;
+    // Accessors
+    const bool running() const;
 
-  // Public Functions
-  void update();
-  void render();
+    // Public Functions
+    void update();
+    void render();
 
  private:
-  sf::VideoMode videoMode;
-  sf::RenderWindow* window;
-  bool endGame;
-  sf::Event sfmlEvent;
+    sf::VideoMode videoMode;
+    sf::RenderWindow *window;
+    bool endGame;
+    sf::Event sfmlEvent;
 
-  Player player;
+    sf::Font font;
+    sf::Text guiText;
 
-  std::vector<Ball> balls;
-  float spawnTimerMax;
-  float spawnTimer;
-  int maxBalls;
+    Player player;
+    int points;
 
-  // Init Functions
-  void initVariables();
-  void initWindow();
+    std::vector<Ball> balls;
+    float spawnTimerMax;
+    float spawnTimer;
+    int maxBalls;
 
-  // Functions
-  void pollEvents();
-  void spawnBalls();
+    // Init Functions
+    void initVariables();
+    void initWindow();
+    void initFont();
+    void initText();
+
+    // Functions
+    void pollEvents();
+    void spawnBalls();
+
+    void updateCollision();
+    void updateText();
+
+    void renderGui();
 };
