@@ -8,7 +8,7 @@ void Game::initVariables() {
     this->endGame = false;
     this->spawnTimerMax = 10.f;
     this->spawnTimer = this->spawnTimerMax;
-    this->maxBalls = 2;
+    this->maxBalls = 10;
     this->points = 0;
 }
 
@@ -104,7 +104,7 @@ void Game::updateCollision() {
                 this->player.gainHealth(1);
                 break;
             case BallType::DAMAGING:
-                this->player.takeDamage(10);
+                this->player.takeDamage(1);
                 break;
             }
 
