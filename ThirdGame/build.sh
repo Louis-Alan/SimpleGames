@@ -3,15 +3,15 @@
 warnings="-Wno-writable-strings -Wno-format-security -Wno-deprecated-declarations -Wno-switch "
 includes="-I ../includes/"
 # Find a fix 
-libs="-L ../library/ ./src/Game.cpp ./src/Player.cpp"
-smfl="-lsfml-graphics -lsfml-window -lsfml-system"
+libs="-L ../library/ ./src/Game.cpp ./src/Player.cpp ./src/Bullet.cpp"
+sfml="-lsfml-graphics -lsfml-window -lsfml-system"
 
 if [[ "$(uname)" == "Darwin" ]]; then
     echo "Running on Mac"
     outputFile=game
 
     rm -f game_*
-    clang++ $includes $libs -g "src/main.cpp" -o $outputFile $warnings $smfl
+    clang++ $includes $libs -g "src/main.cpp" -o $outputFile $warnings $sfml
 
 
 else

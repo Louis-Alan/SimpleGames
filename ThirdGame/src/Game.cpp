@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <iostream>
 
 void Game::initWindow() {
     this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "SpaceShooter",
@@ -9,16 +10,28 @@ void Game::initWindow() {
 
 void Game::initPlayer() { this->player = new Player(); }
 
+void Game::initTextures() {
+    this->bulletTexture = new sf::Texture();
+    if (!this->bulletTexture->loadFromFile("../assets/bullet.png")) {
+        std::cout << "Error in loading bullet";
+    }
+}
+
 // Constructor / Destructor
 Game::Game() {
     this->window = nullptr;
     this->initWindow();
+    this->initTextures();
     this->initPlayer();
 }
 
 Game::~Game() {
     delete this->window;
     delete this->player;
+
+    for (auto *i : this->bullets) {
+        delete i;
+    }
 }
 
 // Functions
@@ -29,7 +42,7 @@ void Game::run() {
     }
 }
 
-void Game::update() {
+void Game::updatePollEvents() {
     sf::Event e;
     while (this->window->pollEvent(e)) {
         if (e.Event::type == sf::Event::Closed) {
@@ -39,7 +52,9 @@ void Game::update() {
             this->window->close();
         }
     }
+}
 
+void Game::updateInput() {
     // Move Player
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         this->player->move(-1.f, 0.f);
@@ -51,6 +66,23 @@ void Game::update() {
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         this->player->move(0.f, 1.f);
     }
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        this->bullets.push_back(new Bullet(this->bulletTexture, 0, 0, 0, 0, 0));
+    }
+}
+
+void Game::updateBullets() {
+    for (auto *bullet : this->bullets) {
+        bullet->update();
+    }
+}
+
+void Game::update() {
+    this->updatePollEvents();
+
+    this->updateInput();
+    this->updateBullets();
 }
 
 void Game::render() {
@@ -58,6 +90,10 @@ void Game::render() {
 
     // Draw everything
     this->player->render(this->window);
+
+    for (auto *bullet : this->bullets) {
+        bullet->render(this->window);
+    }
 
     this->window->display();
 }
